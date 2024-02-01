@@ -25,10 +25,10 @@ class TestCustomer(TestCase):
         self.assertEqual(expected, actual)
 
 
-class AccountTests(APITestCase):
+class CustomerTests(APITestCase):
     def test_create_account(self):
         """
-        Ensure we can create a new account object.
+        Ensure we can create a new Customer object.
         """
         url = 'http://127.0.0.1:8000/ride/sign-up/'
         data = {'name': 'mathew','email':'mathew1@gmail.com', 'password':'12345'}
