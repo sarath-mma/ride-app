@@ -15,3 +15,5 @@ class LoacationAdmin(StackedInline):
 class DriverAdmin(OSMGeoAdmin):
     list_display = ('name',)
     inlines = [VehicleAdmin, LoacationAdmin]
+
+

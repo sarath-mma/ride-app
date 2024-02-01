@@ -1,5 +1,6 @@
 from rest_framework import serializers
-from . models import Customer, TokenCustomer
+from . models import Customer, Ride, RideRequest, TokenCustomer
+from driver.serializer import LocationSerializer
 
 class CustomerSerializer(serializers.ModelSerializer):
     token =  serializers.StringRelatedField(many=False, read_only=True, source = 'agenttoken.token')
@@ -12,3 +13,15 @@ class CustomerSerializer(serializers.ModelSerializer):
         customer = Customer.customermanager.create_customer(**validated_data)
         TokenCustomer.objects.create(customer=customer)
         return customer
+    
+
+class RideRequestSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = RideRequest
+        fields = '__all__'
+
+
+class RideSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Ride
+        fields = '__all__'

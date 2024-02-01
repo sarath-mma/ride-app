@@ -1,5 +1,5 @@
 from django.contrib.gis.db import models
-from driver.models import Base, Driver
+from driver.models import Base, Driver, Location
 from django.utils.translation import gettext_lazy as _
 import binascii
 import os
@@ -7,9 +7,15 @@ from django.contrib.auth.hashers import make_password
 # Create your models here.
 
 STATUS = (
-    ('0', 'started'),
-    ('1', 'completed'),
-    ('2', 'cancelled'),
+    ('0', 'pending'),
+    ('1', 'started'),
+    ('2', 'completed'),
+    ('3', 'cancelled'),
+)
+
+DRV_STATUS =(
+    ('0', 'REJECT'),
+    ('1', 'ACCEPT'),
 )
 
 class CustomerManager(models.Manager):
@@ -42,6 +48,7 @@ class Ride(models.Model):
     pickup_location = models.PointField()
     dropoff_location = models.PointField()
     status = models.CharField(max_length=255, choices=STATUS)
+    accept = models.CharField(max_length=255, choices =DRV_STATUS, null=True, blank=True)
 
     def __str__(self):
 
@@ -65,3 +72,19 @@ class TokenCustomer(models.Model):
     @classmethod
     def generate_key(cls):
         return binascii.hexlify(os.urandom(20)).decode()
+
+
+#using managed is False for creating searilizer fealds easy 
+#not migrating this model 
+    
+class RideRequest(models.Model):
+    customer = models.ForeignKey(Customer, related_name='cus_ridereq', on_delete =models.CASCADE)
+    longitude = models.TextField()
+    latitude = models.TextField()
+    car_type = models.IntegerField(null = True, blank=True)
+    seat_capacity = models.IntegerField(null = True, blank=True)
+    boot_capacity = models.IntegerField(null = True, blank=True)
+
+    class Meta:
+        managed = False
+

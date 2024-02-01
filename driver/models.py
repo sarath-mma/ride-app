@@ -23,7 +23,7 @@ VEHICLE_TYPE = (
 
 SEATING_CAPACITY = (
     ('0', '4'),
-    ('0', '7'),
+    ('1', '7'),
 )
 
 BOOT_SPACE = (
